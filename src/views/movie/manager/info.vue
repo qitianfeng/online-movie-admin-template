@@ -176,7 +176,62 @@
       <el-form-item label="电影拍摄地">
         <el-input v-model="movieInfo.country" placeholder=" 示例：中国北京" />
       </el-form-item>
+      <el-form-item label="电影院座位设置">
+        <el-button type="text" @click="dialogVisible = true">设置</el-button>
 
+        <el-dialog
+          title="座位设置"
+          :visible.sync="dialogVisible"
+          width="80%"
+          :before-close="handleClose"
+        >
+          <div class="box">
+            <div id="room">
+              <div class="row" style="margin-left: 25%">
+                <div style="margin-left: 20px">
+                  <div class="sit bg-sit"></div>
+                  <div>可选座位</div>
+                </div>
+
+                <div style="margin-left: 20px">
+                  <div class="sit bg-temp"></div>
+                  <div>禁用座位</div>
+                </div>
+              </div>
+              <div class="row" style="width: 100%; text-align: center">
+                <span> 银幕中央 </span>
+                <hr style="width: 90%" />
+              </div>
+              <div
+                v-for="(item, i) in list"
+                class="row"
+                style="margin-left: 15%"
+                :key="i"
+              >
+                <div class="sit bg-nosit" style="margin-right: 50px">
+                  {{ i + 1 }}
+                </div>
+                <div
+                  @click="selectSeat(item1, i, j)"
+                  :class="[
+                    'sit',
+                    { 'bg-temp': item1 == 0 },
+
+                    { 'bg-sit': item1 == 1 },
+                  ]"
+                  v-for="(item1, j) in item"
+                  :key="j"
+                ></div>
+              </div>
+            </div>
+          </div>
+          <span slot="footer" class="dialog-footer">
+            <el-button type="primary" @click="dialogVisible = false"
+              >确 定</el-button
+            >
+          </span>
+        </el-dialog>
+      </el-form-item>
       <el-form-item label="电影上线日期">
         <div class="block">
           <el-date-picker
@@ -237,6 +292,21 @@ export default {
   components: { Tinymce },
   data() {
     return {
+      // 座位状态数组
+      list: [
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+      ],
+      msgCount: 0,
+      dialogVisible: false,
       movieId: "",
       saveBtnDisabled: false,
       movieInfo: {
@@ -259,7 +329,10 @@ export default {
         price: 0, //电影价格
         date: "", //发布日期
         language: "", //电影的对白语言
+        seat: "",
       },
+      // 选座信息
+      msg: [],
       BASE_API: process.env.BASE_API, // 接口API地址
       teacherList: [], //封装所有的讲师
       subjectOneList: [], //一级分类
@@ -288,6 +361,16 @@ export default {
     }
   },
   methods: {
+    // 选座时触发
+    selectSeat(data, x, y) {
+      if (this.list[x][y] === 1) {
+        this.list[x][y] = 0;
+      } else if (this.list[x][y] === 0) {
+        this.list[x][y] = 1;
+      }
+      console.log(this.list);
+      this.movieInfo.seat = this.list;
+    },
     getTime() {
       console.log(movieInfo.date);
       let dateInfo = movieInfo.date;
@@ -448,5 +531,95 @@ export default {
 }
 .m-m-small {
   width: 150px;
+}
+
+#room {
+  /* width: 300px; */
+  float: left;
+  width: 80%;
+  border: 1px solid black;
+  padding: 20px 20px 20px 20px;
+}
+
+.sit {
+  float: left;
+  height: 35px;
+  width: 35px;
+  min-height: 10px;
+  min-width: 10px;
+  margin: 4px 4px 4px 4px;
+  background-size: cover;
+  /* border: 1px solid black; */
+}
+
+/* 座位 */
+.bg-sit {
+  float: left;
+  background-image: url("../../../assets/seat.png");
+}
+
+.bg-sit:hover {
+  cursor: pointer;
+  float: left;
+}
+
+/* 空位置 */
+.bg-nosit {
+  float: left;
+  /* border: 1px solid white; */
+}
+
+/* 已禁用座位*/
+.bg-temp {
+  float: left;
+  cursor: pointer;
+  background-image: url("../../../assets/seat-select.png");
+}
+
+/* 已选座位号 */
+.select-sit {
+  float: left;
+  border: 2px orange solid;
+  border-radius: 10px;
+  margin-left: 10px;
+  padding: 4px 10px 4px 10px;
+  background-color: rgba(255, 0, 0, 0.2);
+}
+
+.row {
+  /* 清除格式并换行 */
+  clear: both;
+}
+
+/* 确认选座按钮 */
+.btn {
+  float: left;
+  border-radius: 10px;
+  width: 200px;
+  height: 50px;
+  /* padding: 4px 10px 4px 10px; */
+  background-color: rgba(255, 0, 0, 0.8);
+  font-size: 25px;
+  color: white;
+  font-family: "微软雅黑";
+}
+
+/* 右侧信息栏 */
+.win-right {
+  float: left;
+  padding-left: 2%;
+  padding-top: 2%;
+  width: 27%;
+  background-color: rgba(112, 112, 112, 0.2);
+  border: 1px white solid;
+  height: 100%;
+}
+
+/* 整体容器 */
+.box {
+  float: left;
+  width: 90%;
+  margin-left: 5%;
+  height: 64%;
 }
 </style>
