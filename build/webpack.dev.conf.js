@@ -57,7 +57,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       template: "index.html",
       inject: true,
       favicon: resolve("favicon.ico"),
-      title: "vue-admin-template",
+      title: "在线电影购票后台管理",
       templateParameters: {
         BASE_URL: config.dev.assetsPublicPath + config.dev.assetsSubDirectory
       }

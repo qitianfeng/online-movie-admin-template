@@ -515,7 +515,7 @@ export default {
     },
     saveOrUpdate() {
       console.log("-------saveOrUpdate----------");
-      if (!this.movieId.id) {
+      if (this.movieId.id === "") {
         this.addInfo();
       } else {
         this.updateInfo();

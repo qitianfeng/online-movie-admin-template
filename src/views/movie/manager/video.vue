@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <h2 style="text-align: center">发布新课程</h2>
+    <h2 style="text-align: center">发布新电影</h2>
 
     <el-steps
       :active="2"
@@ -32,9 +32,13 @@
     </div>
 
     <!-- 添加和修改课时表单 -->
-    <el-dialog :visible.sync="dialogVideoFormVisible" title="添加课时">
+    <el-dialog :visible.sync="dialogVideoFormVisible" title="添加电影">
       <el-form :model="movieVideo" label-width="120px">
         <el-form-item label="上传视频">
+          <!-- action 修改为自定义上传接口localhost:8849/movieVod/video/uoloadVideo
+          
+            on-success :handleVodUploadSuccess2
+            -->
           <el-upload
             class="upload-demo"
             :on-success="handleVodUploadSuccess"
@@ -150,6 +154,16 @@ export default {
       this.a.videoOriginalName = file.name;
     },
 
+    //视频上传成功回调
+    handleVodUploadSuccess2(response, file, fileList) {
+      console.log("hello");
+      console.log(this.a);
+      this.a.videoSourceId = response.data.videoId;
+
+      // console.log("=================" + this.video.videoSourceId);
+      this.a.videoOriginalName = response.data.newVideopath;
+    },
+
     handleExceed(files, fileList) {
       this.$message.warning("想要重新上传视频，请先删除已上传的视频");
     },
@@ -173,7 +187,7 @@ export default {
         });
       }); //点击取消，执行catch方法
     },
-    //添加小节弹框的方法
+    //添加弹框的方法
     openVideo() {
       //弹框
       console.log("弹框", this.movieId, this.a.title);
@@ -196,7 +210,7 @@ export default {
       console.log("-------------------------------", this.video);
       //把文件列表清空
       this.fileList = [];
-      //设置课程id
+      //设置id
       this.a.movieId = this.movieId;
       videos.addVideo(this.a).then((response) => {
         //关闭弹框
@@ -204,7 +218,7 @@ export default {
         //提示
         this.$message({
           type: "success",
-          message: "添加小节成功!",
+          message: "添加成功!",
         });
         this.dialogVideoFormVisible = false;
         this.a = response.data.video;

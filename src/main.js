@@ -14,6 +14,10 @@ import store from './store'
 
 import '@/icons' // icon
 import '@/permission' // permission control
+import Video from 'video.js'
+import 'video.js/dist/video-js.css'
+
+Vue.prototype.$video = Video //引入Video播放器
 
 Vue.use(ElementUI, { locale })
 
