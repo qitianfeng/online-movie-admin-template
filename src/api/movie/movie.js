@@ -57,5 +57,11 @@ export default {
       url: `/movie/deleteMovie/${id}`,
       method: "delete"
     });
+  },
+  getPlayPath(videoId) {
+    return request({
+      url: `movie/movieVideo/getPlayPath/${videoId}`,
+      method: "get"
+    });
   }
 };

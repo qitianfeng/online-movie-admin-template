@@ -1,6 +1,10 @@
 <template>
   <div class="app-container">
-    <el-input v-model="filterText" placeholder="Filter keyword" style="margin-bottom:30px;" />
+    <el-input
+      v-model="filterText"
+      placeholder="Filter keyword"
+      style="margin-bottom: 30px"
+    />
 
     <el-tree
       ref="tree2"
@@ -46,6 +50,7 @@ export default {
           this.data2 = response.data.list;
           console.log(this.data2);
           console.log(this.defaultProps);
+          console.log("sasdasdasdasdas", this.data2);
         })
         .catch((err) => {});
     },

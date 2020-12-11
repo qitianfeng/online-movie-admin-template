@@ -501,6 +501,8 @@ export default {
           message: "恭喜你，添加成功",
           type: "success",
         });
+        
+        console.log('=======================',res.data.movieId)
         this.$router.push({ path: "/movie/manager/video/" + res.data.movieId });
       });
     },
@@ -515,10 +517,10 @@ export default {
     },
     saveOrUpdate() {
       console.log("-------saveOrUpdate----------");
-      if (this.movieId.id === "") {
-        this.addInfo();
-      } else {
+      if (!this.movieId.id === "") {
         this.updateInfo();
+      } else {
+        this.addInfo();
       }
     },
   },

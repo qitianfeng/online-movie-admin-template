@@ -14,10 +14,15 @@ import store from './store'
 
 import '@/icons' // icon
 import '@/permission' // permission control
-import Video from 'video.js'
-import 'video.js/dist/video-js.css'
+// import Video from 'video.js'
+// import 'video.js/dist/video-js.css'
 
-Vue.prototype.$video = Video //引入Video播放器
+// Vue.prototype.$video = Video //引入Video播放器
+import VideoPlayer from 'vue-video-player'
+import 'vue-video-player/src/custom-theme.css'
+import 'video.js/dist/video-js.css'
+  
+Vue.use(VideoPlayer)
 
 Vue.use(ElementUI, { locale })
 

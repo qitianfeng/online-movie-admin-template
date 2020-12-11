@@ -41,8 +41,8 @@
             -->
           <el-upload
             class="upload-demo"
-            :on-success="handleVodUploadSuccess"
-            :action="BASE_API + '/movieVod/video/uploadVideoToAliyun'"
+            :on-success="handleVodUploadSuccess2"
+            action="http://localhost:8849/movieVod/video/uploadVideo"
             :on-remove="handleRemove"
             :before-remove="beforeRemove"
             :limit="1"

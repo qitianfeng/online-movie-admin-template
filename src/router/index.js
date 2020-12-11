@@ -102,7 +102,21 @@ export const constantRouterMap = [
       }
     ]
   },
-
+{
+    path: "/videoplay",
+    component: Layout,
+    redirect: "/videoplay/player",
+    name: "视频",
+    meta: { title: "视频", icon: "example" },
+    children: [
+      {
+        path: "list",
+        name: "视频",
+        component: () => import("@/views/videoplay/player"),
+        meta: { title: "视频", icon: "table" }
+      }
+    ]
+  },
   {
     path: "/subject",
     component: Layout,
